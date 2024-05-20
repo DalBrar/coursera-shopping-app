@@ -51,12 +51,16 @@ export const AppReducer = (state, action) => {
 
         case "CHANGE_BUDGET":
           action.type = "DONE";
-          // Do not allow amount lower than amount spent so far
-          let notLowerThanSpent = action.payload >= state.Spent;
-          // Set upper limit to 20,000
-          let lowerThanUpperLimit = action.payload <= 20000;
           
-          if (notLowerThanSpent && lowerThanUpperLimit) {
+          // Set upper limit to 20,000
+          if (action.payload > 20000) {
+            alert("Budget cannot exceed 20,000.");
+          }
+          // Do not allow amount lower than amount spent so far
+          else if (action.payload < parseInt(state.Spent)) {
+            alert("You cannot reduce the budget value lower than the spending.");
+          }
+          else {
             state.Budget = action.payload;
           }
           

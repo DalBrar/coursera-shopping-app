@@ -2,13 +2,24 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
 
 const ItemSelected = (props) => {
-  const { dispatch, Currency } = useContext(AppContext);
+  const { dispatch, Currency, Remaining } = useContext(AppContext);
 
   const [name, setName] = useState("");
   const [allocation, setAllocation] = useState("");
   const [action, setAction] = useState("");
 
   const submitEvent = () => {
+    // regex for numbers and backspaces only
+    const re = /^[0-9\b]+$/;
+    // Ensure we accept only numbers in the allocation field
+    let isNumberOnly = re.test(allocation);
+    if (!isNumberOnly) { alert("The allocation amount can only be a number."); }
+
+    // Ensure the number does not exceed remaining budget
+    if (allocation > Remaining) {
+      alert("The value cannot exceed remaining funds (" + Remaining + ")");
+    }
+
     const item = {
       name: name,
       allocation: parseInt(allocation),
