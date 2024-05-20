@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
-import { FaTimesCircle } from 'react-icons/fa';
+import { FaMinusCircle, FaPlusCircle, FaTimesCircle } from 'react-icons/fa';
 
 const ExpenseItem = (props) => {
-    const { dispatch, Location} = useContext(AppContext);
+    const { dispatch, Currency } = useContext(AppContext);
 
     const handleDeleteItem = () => {
         const item = {
@@ -11,7 +11,29 @@ const ExpenseItem = (props) => {
         };
 
         dispatch({
-            type: 'DELETE_ITEM',
+            type: 'CLEAR',
+            payload: item,
+        });
+    };
+
+    const handleIncrease = () => {
+        const item = {
+            name: props.name,
+        };
+
+        dispatch({
+            type: 'INCR_BY_10',
+            payload: item,
+        });
+    };
+
+    const handleDecrease = () => {
+        const item = {
+            name: props.name,
+        };
+
+        dispatch({
+            type: 'DECR_BY_10',
             payload: item,
         });
     };
@@ -20,10 +42,10 @@ const ExpenseItem = (props) => {
     return (
         <tr>
         <td>{props.name}</td>
-        <td>{props.quantity}</td>
-        <td>{Location}{parseInt(props.unitprice)}</td>
-        <td>{Location}{parseInt(props.quantity)*parseInt(props.unitprice)}</td>
-        <td><FaTimesCircle size='2.2em' color="red" onClick={handleDeleteItem}></FaTimesCircle></td>
+        <td>{Currency}{parseInt(props.allocation)}</td>
+        <td align="center"><FaPlusCircle size='2.2em' color="green" onClick={handleIncrease}></FaPlusCircle></td>
+        <td align="center"><FaMinusCircle size='2.2em' color="darkred" onClick={handleDecrease}></FaMinusCircle></td>
+        <td align="center"><FaTimesCircle size='1.25em' color="black" onClick={handleDeleteItem}></FaTimesCircle></td>
         </tr>
     );
 };
